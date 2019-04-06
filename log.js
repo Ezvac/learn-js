@@ -17,8 +17,8 @@ class EmptyLogger{
 }
 
 class MultiLogger{
-    constructor() {
-        this.loggers = [new ConsoleLogger(), new Filelogger(), new EmptyLogger()];
+    constructor(logg) {
+        this.loggers = logg;
     }
 
     log(text){
@@ -27,9 +27,42 @@ class MultiLogger{
         }
     }
 }
+class stopwatch{
+    constructor (){
+        this.startedAt = null
+        this.stoppedAt = null
+    }
+    Start(){
+        this.startedAt = new Date()
+    }
+    Stop(){
+        this.stoppedAt = new Date()
+    }
+    LogElapsed(logg){
+        this.loggers = logg;
+        (this.stoppedAt-this.startedAt)
+    }
+}
 
-let c = new MultiLogger()
-c.log('hello')
-c.log('hello1')
-c.log('hello2')
-c.log('hello3')
+function blockCpuFor(ms) {
+	var now = new Date().getTime();
+	var result = 0
+	while(true) {
+		result += Math.random() * Math.random();
+		if (new Date().getTime() > now +ms)
+			return;
+	}	
+}
+
+
+
+
+let myLoggers = [new ConsoleLogger()]
+
+let c = new MultiLogger(myLoggers)
+
+let stopwatch1 = new stopwatch()
+stopwatch1.Start()
+blockCpuFor(100)
+stopwatch1.Stop()
+stopwatch1.LogElapsed(c)
